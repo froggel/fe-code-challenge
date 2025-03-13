@@ -3,6 +3,7 @@ import { ReactComponent as CompanyIcon } from '@/assets/company.svg';
 import { useAppSelector } from '@/hooks/redux';
 import ListItem from '@/components/ListItem';
 import SymbolCardHeader from './components/SymbolCardHeader/SymbolCardHeader';
+import SymbolCardPrice from './components/SymbolCardPrice/SymbolCardPrice';
 
 type SymbolCardProps = {
   id: string;
@@ -18,8 +19,7 @@ const SymbolCard = ({ id, onClick, price }: SymbolCardProps) => {
   return (
     <div onClick={handleOnClick} className="symbolCard">
       <SymbolCardHeader id={ id } trend={ trend } />
-      <div>Price:</div>
-      <div>{price || '--'} </div>
+      <SymbolCardPrice price={ price } />
       <ListItem Icon={<CompanyIcon />} label={companyName} />
     </div>
   );

@@ -1,0 +1,16 @@
+.symbolCardPrice {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin: 10px 5px;
+}
+
+.symbolCardPrice__text {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.symbolCardPrice__amount {
+  font-weight: 700;
+  font-size: 2em;
+}
