@@ -1,0 +1,18 @@
+.symbolCardHeader {
+  position: relative;
+  background-color: var(--colorDark);
+  padding: 2px 5px;
+}
+
+.symbolCardHeader__id {
+  color: var(--colorWhite);
+  font-weight: 500;
+}
+
+.symbolCardHeader__trend {
+  position: absolute;
+  width: 40px;
+  height: auto;
+  top: -14px;
+  right: -18px;
+}
