@@ -4,6 +4,7 @@ import { useAppSelector } from '@/hooks/redux';
 import ListItem from '@/components/ListItem';
 import SymbolCardHeader from './components/SymbolCardHeader/SymbolCardHeader';
 import SymbolCardPrice from './components/SymbolCardPrice/SymbolCardPrice';
+import SymbolCardCompanyInfo from './components/SymbolCardCompanyInfo/SymbolCardCompanyInfo';
 
 type SymbolCardProps = {
   id: string;
@@ -12,7 +13,12 @@ type SymbolCardProps = {
 };
 
 const SymbolCard = ({ id, onClick, price }: SymbolCardProps) => {
-  const { trend, companyName } = useAppSelector((state) => state.stocks.entities[id]);
+  const {
+    trend,
+    companyName,
+    industry,
+    marketCap
+  } = useAppSelector((state) => state.stocks.entities[id]);
   const handleOnClick = () => {
     onClick(id);
   };
@@ -20,7 +26,11 @@ const SymbolCard = ({ id, onClick, price }: SymbolCardProps) => {
     <div onClick={handleOnClick} className="symbolCard">
       <SymbolCardHeader id={ id } trend={ trend } />
       <SymbolCardPrice price={ price } />
-      <ListItem Icon={<CompanyIcon />} label={companyName} />
+      <SymbolCardCompanyInfo
+        companyName={companyName}
+        industry={industry}
+        marketCap={marketCap}
+      />
     </div>
   );
 };
