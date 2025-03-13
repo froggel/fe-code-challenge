@@ -1,0 +1,16 @@
+.symbolsView__content {
+  display: grid;
+  grid: "cards ." 1fr / 1fr 400px;
+}
+
+.symbolsView__cards {
+  grid-area: cards;
+}
+
+@media (max-width: 1023px) {
+  .symbolsView__content {
+    grid:
+      "."
+      "cards";
+  }
+}
