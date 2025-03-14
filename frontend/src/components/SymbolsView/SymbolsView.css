@@ -1,6 +1,17 @@
-.symbolsView__content {
+.symbolsView {
   display: grid;
-  grid: "cards ." 1fr / 1fr 400px;
+  grid:
+    "top top"
+    "cards chart"
+    / 1fr 400px;
+}
+
+.symbolsView__topRow {
+  grid-area: top;
+}
+
+.symbolsView__chart {
+  grid-area: chart;
 }
 
 .symbolsView__cards {
@@ -8,9 +19,11 @@
 }
 
 @media (max-width: 1023px) {
-  .symbolsView__content {
+  .symbolsView {
     grid:
-      "."
-      "cards";
+      "top"
+      "chart"
+      "cards"
+      / minmax(0, 1fr);
   }
 }
