@@ -1,4 +1,3 @@
-import './SymbolCardCompanyInfo.css';
 import ListItem from '@/components/ListItem';
 import { ReactComponent as CompanyIcon } from '@/assets/company.svg';
 import { ReactComponent as IndustryIcon } from '@/assets/industry.svg';
