@@ -1,4 +1,6 @@
 .symbolsView {
+  flex-grow: 1;
+  overflow: hidden;
   display: grid;
   grid:
     "top top"
@@ -16,6 +18,9 @@
 
 .symbolsView__cards {
   grid-area: cards;
+  background-color: var(--colorSecondary);
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 
 @media (max-width: 1023px) {
