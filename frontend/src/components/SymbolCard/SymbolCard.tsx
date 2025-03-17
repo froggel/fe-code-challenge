@@ -4,6 +4,7 @@ import SymbolCardHeader from './components/SymbolCardHeader/SymbolCardHeader';
 import SymbolCardPrice from './components/SymbolCardPrice/SymbolCardPrice';
 import SymbolCardCompanyInfo from './components/SymbolCardCompanyInfo/SymbolCardCompanyInfo';
 import { selectShowCardInfo } from '@/store/dashboardOptionsSlice';
+import useCardAnimation from '@/hooks/useCardAnimation';
 
 type SymbolCardProps = {
   id: string;
@@ -19,13 +20,16 @@ const SymbolCard = ({ id, onClick, price }: SymbolCardProps) => {
     marketCap
   } = useAppSelector((state) => state.stocks.entities[id]);
   const showCardInfo = useAppSelector(selectShowCardInfo);
+  const animation = useCardAnimation(price);
 
   const handleOnClick = () => {
     onClick(id);
   };
 
   return (
-    <div onClick={handleOnClick} className="symbolCard">
+    <div onClick={handleOnClick} className={
+      `symbolCard ${animation}`
+    }>
       <SymbolCardHeader id={ id } trend={ trend } />
       <SymbolCardPrice price={ price } />
       {
