@@ -11,20 +11,18 @@ const useCardAnimation = (price: number) => {
     if (price === prevPriceRef.current) return;
 
     const pricePercentageDiff = calculatePriceChange(price, prevPriceRef.current);
-    const nextAnimation = () => {
-      switch (true) {
-        case pricePercentageDiff >= PRICE_THRESHOLD:
-          return 'symbolCard__shake';
-        default:
-          return "";
-      }
-    };
+    const shakeAnimation = pricePercentageDiff >= PRICE_THRESHOLD
+      ? 'symbolCard__shake'
+      : '';
+    const priceChangeAnimation = price > prevPriceRef.current
+      ? 'symbolCard__priceUp'
+      : 'symbolCard__priceDown';
 
     setAnimation('');
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        setAnimation(nextAnimation());
+        setAnimation(`${priceChangeAnimation} ${shakeAnimation}`.trim());
       });
     });
     
