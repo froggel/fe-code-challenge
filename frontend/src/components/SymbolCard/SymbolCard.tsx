@@ -3,7 +3,7 @@ import { useAppSelector } from '@/hooks/redux';
 import SymbolCardHeader from './components/SymbolCardHeader/SymbolCardHeader';
 import SymbolCardPrice from './components/SymbolCardPrice/SymbolCardPrice';
 import SymbolCardCompanyInfo from './components/SymbolCardCompanyInfo/SymbolCardCompanyInfo';
-import { selectShowCardInfo } from '@/store/dashboardOptionsSlice';
+import { selectActiveSymbol, selectShowCardInfo } from '@/store/dashboardOptionsSlice';
 import useCardAnimation from '@/hooks/useCardAnimation';
 
 type SymbolCardProps = {
@@ -21,6 +21,7 @@ const SymbolCard = ({ id, onClick, price }: SymbolCardProps) => {
   } = useAppSelector((state) => state.stocks.entities[id]);
   const showCardInfo = useAppSelector(selectShowCardInfo);
   const animation = useCardAnimation(price);
+  const activeSymbol = useAppSelector(selectActiveSymbol);
 
   const handleOnClick = () => {
     onClick(id);
@@ -28,7 +29,13 @@ const SymbolCard = ({ id, onClick, price }: SymbolCardProps) => {
 
   return (
     <div onClick={handleOnClick} className={
-      `symbolCard ${animation}`
+      `symbolCard ${animation} ${
+        activeSymbol !== null
+          ? activeSymbol === id
+            ? 'symbolCard__selected'
+            : 'symbolCard__unselected'
+          : ''
+      }`.trim()
     }>
       <SymbolCardHeader id={ id } trend={ trend } />
       <SymbolCardPrice price={ price } />
