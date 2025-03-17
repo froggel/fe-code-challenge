@@ -2,6 +2,7 @@ import './SymbolCardHeader.css';
 import { Trend } from "@/lib/types/stockTypes";
 import upTrendSrc from '@/assets/up.png';
 import downTrendSrc from '@/assets/down.png';
+import { memo, useMemo } from 'react';
 
 type SymbolCardHeaderProps = {
   id: string;
@@ -9,7 +10,7 @@ type SymbolCardHeaderProps = {
 };
 
 const SymbolCardHeader = ({ id, trend }: SymbolCardHeaderProps) => {
-  const getTrendSrc = (trend: Trend) => {
+  const trendSrc = useMemo(() => {
     switch (trend) {
       case 'UP':
         return upTrendSrc;
@@ -18,7 +19,7 @@ const SymbolCardHeader = ({ id, trend }: SymbolCardHeaderProps) => {
       default:
         return undefined;
     }
-  };
+  }, [trend]);
 
   return (
     <div className="symbolCardHeader">
@@ -27,7 +28,7 @@ const SymbolCardHeader = ({ id, trend }: SymbolCardHeaderProps) => {
         trend !== null && (
           <img
             className="symbolCardHeader__trend"
-            src={ getTrendSrc(trend) }
+            src={ trendSrc }
             alt={`${ trend?.toLowerCase() } trend`}
           />
         )
@@ -36,4 +37,4 @@ const SymbolCardHeader = ({ id, trend }: SymbolCardHeaderProps) => {
   );
 };
 
-export default SymbolCardHeader;
+export default memo(SymbolCardHeader);

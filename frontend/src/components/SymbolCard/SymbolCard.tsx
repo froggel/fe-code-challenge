@@ -5,6 +5,7 @@ import SymbolCardPrice from './components/SymbolCardPrice/SymbolCardPrice';
 import SymbolCardCompanyInfo from './components/SymbolCardCompanyInfo/SymbolCardCompanyInfo';
 import { selectActiveSymbol, selectShowCardInfo } from '@/store/dashboardOptionsSlice';
 import useCardAnimation from '@/hooks/useCardAnimation';
+import { memo, useCallback, useMemo } from 'react';
 
 type SymbolCardProps = {
   id: string;
@@ -23,20 +24,22 @@ const SymbolCard = ({ id, onClick, price }: SymbolCardProps) => {
   const animation = useCardAnimation(price);
   const activeSymbol = useAppSelector(selectActiveSymbol);
 
-  const handleOnClick = () => {
+  const handleOnClick = useCallback(() => {
     onClick(id);
-  };
+  }, [id, onClick]);
+
+  const classNames = useMemo(() => ([
+    'symbolCard',
+    `${animation}`,
+    activeSymbol !== null
+      ? activeSymbol === id
+        ? 'symbolCard__selected'
+        : 'symbolCard__unselected'
+      : ''
+  ].join(" ").trim()), [animation, activeSymbol, id]);
 
   return (
-    <div onClick={handleOnClick} className={
-      `symbolCard ${animation} ${
-        activeSymbol !== null
-          ? activeSymbol === id
-            ? 'symbolCard__selected'
-            : 'symbolCard__unselected'
-          : ''
-      }`.trim()
-    }>
+    <div onClick={handleOnClick} className={classNames}>
       <SymbolCardHeader id={ id } trend={ trend } />
       <SymbolCardPrice price={ price } />
       {
@@ -50,4 +53,5 @@ const SymbolCard = ({ id, onClick, price }: SymbolCardProps) => {
     </div>
   );
 };
-export default SymbolCard;
+
+export default memo(SymbolCard);
