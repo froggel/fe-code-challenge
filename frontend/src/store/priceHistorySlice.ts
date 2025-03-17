@@ -18,6 +18,7 @@ type PriceHistoryState = {
     loading: boolean | null;
     error: boolean;
   };
+  currentSymbol: string | null;
 };
 
 const initialState: PriceHistoryState = {
@@ -26,17 +27,31 @@ const initialState: PriceHistoryState = {
   apiState: {
     loading: null,
     error: false
-  }
+  },
+  currentSymbol: null
 };
 
 export const fetchPriceHistory = createAsyncThunk(
   'stocks/fetchPriceHistory',
   // if you type your function argument here
   async (symbolId: string, thunkAPI) => {
-    const response = await fetch(`http://localhost:3100/api/stock/history/${symbolId}`, {
-      signal: thunkAPI.signal
-    });
-    return (await response.json()) as PriceHistoryResponse;
+    try {
+      const response = await fetch(`http://localhost:3100/api/stock/history/${symbolId}`, {
+        signal: thunkAPI.signal
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch ${symbolId} price history`);
+      }
+
+      return (await response.json()) as PriceHistoryResponse;
+    } catch (error) {
+      if (thunkAPI.signal.aborted) {
+        return thunkAPI.rejectWithValue(`${symbolId} request aborted`);
+      }
+
+      throw error;
+    }
   }
 );
 
@@ -51,6 +66,8 @@ const priceHistorySlice = createSlice({
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchPriceHistory.fulfilled, (state, action) => {
+      if (state.currentSymbol !== action.meta.arg) return;
+      
       const { symbol, history } = action.payload;
       state.apiState.error = false;
       state.apiState.loading = false;
@@ -59,6 +76,8 @@ const priceHistorySlice = createSlice({
     });
 
     builder.addCase(fetchPriceHistory.rejected, (state, action) => {
+      if (state.currentSymbol !== action.meta.arg) return;
+
       if (!action.meta.aborted) {
         state.apiState.error = true;
         state.apiState.loading = false;
@@ -68,6 +87,7 @@ const priceHistorySlice = createSlice({
     builder.addCase(fetchPriceHistory.pending, (state, action) => {
       state.apiState.error = false;
       state.apiState.loading = true;
+      state.currentSymbol = action.meta.arg;
     });
   }
 });

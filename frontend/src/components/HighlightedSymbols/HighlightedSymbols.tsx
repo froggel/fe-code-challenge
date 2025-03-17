@@ -3,9 +3,10 @@ import './highlightedSymbols.css';
 
 import PerformanceCard from '@/components/PerformanceCard';
 import Row from '@/components/Row';
+import { Trend } from '@/lib/types/stockTypes';
 
 type HighlightedSymbol = {
-  trend?: 'UP' | 'DOWN' | null;
+  trend?: Trend;
   symbolId: string;
   volume: number;
   change: number;

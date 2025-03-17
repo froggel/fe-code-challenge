@@ -10,10 +10,13 @@ type PriceChartProps = {
 
 const PriceChart = ({ symbolId }: PriceChartProps) => {
   const dispatch = useAppDispatch();
+
   useEffect(() => {
-    if (symbolId) {
-      dispatch(fetchPriceHistory(symbolId));
-    }
+    if (symbolId === null) return;
+
+    const controlledFetchPriceHistory = dispatch(fetchPriceHistory(symbolId));
+
+    return () => { controlledFetchPriceHistory.abort() };
   }, [dispatch, symbolId]);
 
   const apiState = useAppSelector(selectors.apiState);

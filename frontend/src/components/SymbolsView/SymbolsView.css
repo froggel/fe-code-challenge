@@ -1,0 +1,34 @@
+.symbolsView {
+  flex-grow: 1;
+  overflow: hidden;
+  display: grid;
+  grid:
+    "top top"
+    "cards chart"
+    / 1fr 400px;
+}
+
+.symbolsView__topRow {
+  grid-area: top;
+}
+
+.symbolsView__chart {
+  grid-area: chart;
+}
+
+.symbolsView__cards {
+  grid-area: cards;
+  background-color: var(--colorSecondary);
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 1023px) {
+  .symbolsView {
+    grid:
+      "top"
+      "chart"
+      "cards"
+      / minmax(0, 1fr);
+  }
+}
